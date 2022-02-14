@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^6.2.1"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,9 @@
     "url": "https://github.com/fchoi1/pizza-hunt/issues"
   },
   "homepage": "https://github.com/fchoi1/pizza-hunt#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "prettier": "2.5.1"
+  }
 }
