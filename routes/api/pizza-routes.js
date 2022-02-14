@@ -3,7 +3,8 @@ const {
   getPizzaById,
   createPizza,
   updatePizza,
-  deletePizza
+  deletePizza,
+  dropDb,
 } = require('../../controllers/pizza-controller');
 
 const router = require('express').Router();
@@ -12,7 +13,12 @@ const router = require('express').Router();
 // /api/pizzas
 router.route('/').get(getAllPizza).post(createPizza);
 
+// /api/pizzas/all
+router.route('/all').delete(dropDb)
+
 // /api/pizzas/:id
 router.route('/:id').get(getPizzaById).put(updatePizza).delete(deletePizza);
+
+
 
 module.exports = router;

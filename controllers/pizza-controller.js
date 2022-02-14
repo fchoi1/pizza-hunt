@@ -69,6 +69,18 @@ const pizzaController = {
       console.log(err);
       res.status(400).json(err);
     }
+  },
+  dropDb: async (req, res) => {
+    try {
+
+      const dpPizzaData = await Pizza.remove();
+      console.log('collection removed', dpPizzaData);
+
+      res.json({ message: 'model dropped' });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json(err);
+    }
   }
 };
 
