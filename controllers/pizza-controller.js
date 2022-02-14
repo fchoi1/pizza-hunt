@@ -4,8 +4,18 @@ const pizzaController = {
   // find pizza
   getAllPizza: async (req, res) => {
     try {
-      const dbPizzaData = await Pizza.find({});
+      const dbPizzaData = await Pizza.find({})
+        // popluate() is the join equivalent
+        .populate({
+          path: 'comments',
+          select: '-__v' // minus sign is not to select the _v field for comments
+        })
+        .select('-__v') // minus sign to not select __V field for Pizza
+        .sort({ _id: -1 }); // sort by DESC order, gets newest pizza by timestamp in id
       res.json(dbPizzaData);
+      dbPizzaData.forEach((item) => {
+        console.log('comment count:', item.commentCount);
+      });
     } catch (err) {
       console.log(err);
       res.status(400).json(err);
@@ -14,8 +24,13 @@ const pizzaController = {
   // find one pizza
   getPizzaById: async ({ params }, res) => {
     try {
-      const dbPizzaData = await Pizza.findOne({ _id: params.id });
-
+      const dbPizzaData = await Pizza.findOne({ _id: params.id })
+        // popluate() is the join equivalent
+        .populate({
+          path: 'comments',
+          select: '-__v' // minus sign is not to select the _v field for comments
+        })
+        .select('-__v'); // minus sign to not select __V field for Pizza
       if (!dbPizzaData) {
         res.status(404).json({ message: 'No pizza found with this id!' });
         return;
@@ -72,7 +87,6 @@ const pizzaController = {
   },
   dropDb: async (req, res) => {
     try {
-
       const dpPizzaData = await Pizza.remove();
       console.log('collection removed', dpPizzaData);
 
