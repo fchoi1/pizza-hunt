@@ -23,9 +23,13 @@ const PizzaSchema = new Schema(
 );
 
 // virtual function, not store, usually calculated
-PizzaSchema.virtual('commentCount').get(function () {
-  return this.comments.length;
+PizzaSchema.virtual('commentCount').get(function() {
+  return this.comments.reduce(
+    (total, comment) => total + comment.replies.length + 1,
+    0
+  );
 });
+
 // Create pizza model with schema
 const Pizza = model('Pizza', PizzaSchema);
 
