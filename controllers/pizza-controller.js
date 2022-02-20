@@ -45,9 +45,9 @@ const pizzaController = {
   createPizza: async ({ body }, res) => {
     try {
       const dbPizzaData = await Pizza.create(body);
+      console.log('creating pizza', body)
       res.json(dbPizzaData);
     } catch (err) {
-      console.log(err);
       res.status(400).json(err);
     }
   },

@@ -47,20 +47,28 @@ const handlePizzaSubmit = async (event) => {
   }
 
   const formData = { pizzaName, createdBy, size, toppings };
+  const response = await fetch('/api/pizzas', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  }).catch((err) => {
+    saveRecord(formData);
+    return;
+  });
   try {
-    const response = await fetch('/api/pizzas', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
+    if (!response.ok) throw new Error('Something went wrong!');
+
     const postResponse = await response.json();
     alert('Pizza created successfully!');
     console.log(postResponse);
   } catch (err) {
+    console.error('some error here: ', err);
+
     console.log(err);
+    return;
   }
 };
 

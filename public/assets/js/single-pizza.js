@@ -17,25 +17,23 @@ async function handleNewCommentSubmit(event) {
   if (!commentBody || !writtenBy) return false;
 
   const formData = { commentBody, writtenBy };
-  try {
-    const response = await fetch(`/api/comments/${pizzaId}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    if (!response.ok) throw new Error('Something went wrong!');
-
-    const commentResponse = await response.json();
-
-    console.log('comment response here:', commentResponse);
-    location.reload();
-  } catch (err) {
+  const response = await fetch(`/api/comments/${pizzaId}`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  }).catch((err) => {
     console.log(err);
-  }
+  });
+
+  if (!response.ok) throw new Error('Something went wrong!');
+
+  const commentResponse = await response.json();
+
+  console.log('comment response here:', commentResponse);
+  location.reload();
 }
 
 async function getPizza() {
@@ -44,7 +42,9 @@ async function getPizza() {
   );
   const pizzaId = searchParams.get('id');
   try {
-    const response = await fetch(`/api/pizzas/${pizzaId}`);
+    const response = await fetch(`/api/pizzas/${pizzaId}`).catch((err) => {
+      console.log(err);
+    });
     if (!response.ok) {
       throw new Error({ message: 'Something went wrong!' });
     }
@@ -169,7 +169,6 @@ async function handleNewReplySubmit(event) {
     const commentResponse = await response.json();
     console.log(commentResponse);
     location.reload();
-
   } catch (err) {
     console.log(err);
   }

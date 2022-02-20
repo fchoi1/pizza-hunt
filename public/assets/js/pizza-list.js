@@ -1,13 +1,13 @@
 const $pizzaList = document.querySelector('#pizza-list');
 
 const getPizzaList = async () => {
-  try {
-    const response = await fetch('/api/pizzas/');
-    const pizzaArray = await response.json();
-    pizzaArray.forEach(printPizza); // display html
-  } catch (err) {
+  const response = await fetch('/api/pizzas/').catch((err) => {
     console.log(err);
-  }
+  });
+  if (!response.ok) throw new Error('Something went wrong!');
+
+  const pizzaArray = await response.json();
+  pizzaArray.forEach(printPizza); // display html
 };
 
 const printPizza = ({
