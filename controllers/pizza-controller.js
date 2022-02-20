@@ -45,7 +45,7 @@ const pizzaController = {
   createPizza: async ({ body }, res) => {
     try {
       const dbPizzaData = await Pizza.create(body);
-      console.log('creating pizza', body)
+      console.log('creating pizza', body);
       res.json(dbPizzaData);
     } catch (err) {
       res.status(400).json(err);
@@ -58,7 +58,8 @@ const pizzaController = {
         { _id: params.id },
         body,
         {
-          new: true
+          new: true,
+          runValidators: true // For update to validate data
         }
       );
       if (!dbPizzaData) {

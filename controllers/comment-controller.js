@@ -25,7 +25,7 @@ const commentController = {
       const dbCommentData = await Comment.findOneAndUpdate(
         { _id: params.commentId },
         { $push: { replies: body } },
-        { new: true }
+        { new: true, runValidators: true }
       );
       if (!dbCommentData) {
         return res
